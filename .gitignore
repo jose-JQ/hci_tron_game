@@ -1,0 +1,86 @@
+# === GLOBAL ===
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Backup / temp
+*.bak
+*.tmp
+*.old
+
+# Environment files
+.env
+.env.*.local
+
+# === FRONTEND (Angular + Vite) ===
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.angular-cache/
+frontend/.vite/
+frontend/coverage/
+
+# === BACKEND (FastAPI + Python) ===
+backend/__pycache__/
+backend/*.py[cod]
+backend/*.pyo
+backend/*.pyd
+backend/*.so
+
+backend/*.sqlite3
+backend/*.log
+backend/*.egg-info/
+backend/.venv/
+backend/venv/
+backend/env/
+backend/.mypy_cache/
+backend/.pytest_cache/
+backend/.tox/
+backend/htmlcov/
+backend/instance/
+
+# === ANDROID STUDIO (controlcarrito) ===
+controlcarrito/.gradle/
+controlcarrito/.idea/
+controlcarrito/.cxx/
+controlcarrito/local.properties
+controlcarrito/.DS_Store
+controlcarrito/build/
+controlcarrito/captures/
+controlcarrito/*.iml
+controlcarrito/*.apk
+controlcarrito/*.jks
+controlcarrito/*.keystore
+controlcarrito/app/build/
+controlcarrito/app/release/
+controlcarrito/.externalNativeBuild/
+
+# NDK/Native (opcional si usas JNI)
+controlcarrito/**/*.so
+
+# === OPTIONAL ===
+# Uncomment if using Docker
+# docker-compose.override.yml
+# Dockerfile
+# .dockerignore
