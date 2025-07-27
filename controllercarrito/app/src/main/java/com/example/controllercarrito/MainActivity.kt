@@ -50,7 +50,7 @@ fun ControllerUI() {
             Spacer(modifier = Modifier.width(16.dp))
 
             // Botón STOP
-            Button(onClick = { sendCommand("STOP") }, modifier = Modifier.size(80.dp)) {
+            Button(onClick = {  }, modifier = Modifier.size(80.dp)) {
                 Text("⏹")
             }
 
