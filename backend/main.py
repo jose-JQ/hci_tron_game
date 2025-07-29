@@ -3,12 +3,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from models import Base
+from populate_achievements import populate_achievements
 import crud, schemas
+from auth import router as auth_router
+from user import router as user_router
 
 app = FastAPI()
 
 # Crea las tablas si no existen
 Base.metadata.create_all(bind=engine)
+populate_achievements()
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +22,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
+app.include_router(user_router)
+
 # Dependency para la sesión
 def get_db():
     db = SessionLocal()
@@ -25,6 +32,10 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+@app.get("/")
+def root():
+    return {"message": "API disponible"}
 
 @app.get("/api/player/{player_id}", response_model=schemas.PlayerOut)
 def read_player(player_id: int, db: Session = Depends(get_db)):

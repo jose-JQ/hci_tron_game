@@ -5,7 +5,7 @@ import { useClickSound } from './useClickSound';
 
 const GRID_SIZE = 8;
 const INITIAL_SPEED = 50;
-const API_URL = "http://192.168.110.183:8000";
+const API_URL = "http://192.168.162.106:8000";
 
 export function useTronGame(canvasRef: React.RefObject<HTMLCanvasElement>, gameMode:GameMode) {
   const [gameState, setGameState] = useState<GameState>({
