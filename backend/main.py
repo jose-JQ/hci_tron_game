@@ -7,6 +7,10 @@ from populate_achievements import populate_achievements
 import crud, schemas
 from auth import router as auth_router
 from user import router as user_router
+from models import GameHistory
+from schemas import GameHistoryCreate
+import pickle
+from fastapi import Request
 
 app = FastAPI()
 
@@ -24,6 +28,10 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(user_router)
+
+# Cargar el modelo de machine learning
+with open('tron_model.pkl', 'rb') as f:
+    ml_model = pickle.load(f)
 
 # Dependency para la sesión
 def get_db():
@@ -58,3 +66,24 @@ def create_player(player_id: int, player: schemas.PlayerCreate, db: Session = De
     if existing:
         raise HTTPException(status_code=400, detail="Jugador ya existe")
     return crud.create_player(db, player_id, player.x)
+
+@app.post("/api/game_history")
+def save_game_history(history: GameHistoryCreate, db: Session = Depends(get_db)):
+    db_history = GameHistory(**history.dict())
+    db.add(db_history)
+    db.commit()
+    db.refresh(db_history)
+    return db_history
+
+@app.post("/api/predict_difficulty")
+async def predict_difficulty(request: Request):
+    data = await request.json()
+    features = [
+        data['age'],
+        data['games_won'],
+        data['best_time'],
+        data['games_loss'],
+        data['max_score']
+    ]
+    dificultad = ml_model.predict([features])[0]
+    return {"dificultad": str(dificultad)}

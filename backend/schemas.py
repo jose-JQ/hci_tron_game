@@ -1,5 +1,13 @@
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
+from pydantic import BaseModel
+
+class GameHistoryCreate(BaseModel):
+    user_id: int
+    duration: float
+    moves: int
+    difficulty: str
+    result: str
 
 class PlayerBase(BaseModel):
     x: str

@@ -79,7 +79,7 @@ fun sendCommand(direction: String) {
     val requestBody = json.toRequestBody(mediaType)
 
     val request = Request.Builder()
-        .url("http://192.168.162.213:8000/api/player/1")  //
+        .url("http://192.168.1.208:8000/api/player/1")  //
         .put(requestBody)
         .build()
 
