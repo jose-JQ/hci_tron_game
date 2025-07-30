@@ -1,6 +1,19 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+import datetime
+
+class GameHistory(Base):
+    __tablename__ = "game_history"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    duration = Column(Float)  # segundos
+    moves = Column(Integer)
+    difficulty = Column(String)
+    result = Column(String)  # "win" o "lose"
+    timestamp = Column(DateTime, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
 class Player(Base):
     __tablename__ = "players"
