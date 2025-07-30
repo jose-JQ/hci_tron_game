@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Player, GameState, GameMode } from '../types';
 import { useClickSound } from './useClickSound';
-
+import {API_URL} from "./apiURL"
 
 const GRID_SIZE = 8;
 const INITIAL_SPEED = 50;
-const API_URL = "http://192.168.162.106:8000";
 
 export function useTronGame(canvasRef: React.RefObject<HTMLCanvasElement>, gameMode:GameMode) {
   const [gameState, setGameState] = useState<GameState>({
