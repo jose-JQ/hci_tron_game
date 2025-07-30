@@ -8,6 +8,7 @@ import { RulesPage } from './components/screens/RulesPage';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Screen, User, GameMode } from './types';
 import { useBackgroundMusic } from './hooks/useBackgroundMusic'; 
+import { AuthProvider } from './hooks/useAuth';
 
 const BACKGROUND_MUSIC = '/audio/base.mp3';
 
@@ -50,6 +51,7 @@ function App() {
   }, [currentScreen, user]);
 
   return (
+    <AuthProvider> 
     <div className="min-h-screen bg-gray-900">
       {currentScreen !== 'home' && (
         <Header 
@@ -88,6 +90,7 @@ function App() {
         <RulesPage onNavigate={handleNavigate} />
       )}
     </div>
+     </AuthProvider>
   );
 }
 

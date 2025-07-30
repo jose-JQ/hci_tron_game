@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { User, Mail, Calendar, Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import { Screen, User as UserType } from '../../types';
 import { useClickSound } from '../../hooks/useClickSound';
+import { useAuth } from '../../hooks/useAuth.tsx';
 
 interface LoginPageProps {
   onNavigate: (screen: Screen) => void;
@@ -19,7 +20,8 @@ export function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const playClick = useClickSound();
-
+  const { register } = useAuth();
+  
   const validateForm = () => {
     const newErrors: Partial<typeof formData> = {};
 
@@ -38,8 +40,8 @@ export function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
     const age = parseInt(formData.age);
     if (!formData.age) {
       newErrors.age = 'La edad es requerida';
-    } else if (isNaN(age) || age < 5 || age > 18) {
-      newErrors.age = 'La edad debe estar entre 5 y 18 años';
+    } else if (isNaN(age) || age < 5 || age > 100) {
+      newErrors.age = 'La edad debe ser mayor a 5 años y menor a 100';
     }
 
     if (!formData.password) {
@@ -52,15 +54,22 @@ export function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+
+   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const success = await register({
+      name: formData.name,
+      email: formData.email,
+      age: parseInt(formData.age),
+      password: formData.password,
+    });
+
+    console.log(success)
 
     const user: UserType = {
       name: formData.name.trim(),
@@ -76,7 +85,7 @@ export function LoginPage({ onNavigate, onLogin }: LoginPageProps) {
 
   const handleChange = (field: keyof typeof formData) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [field]: e.target.value }));
-    if (errors[field]) {
+    if (errors[field] ) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
   };
